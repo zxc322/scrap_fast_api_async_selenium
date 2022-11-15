@@ -1,0 +1,1 @@
+# FastAPI scrap + async selenium
