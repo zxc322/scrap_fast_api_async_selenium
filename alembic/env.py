@@ -3,8 +3,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from db.connection import DATABASE_URL
-from db.models import Base
+from src.db.connection import DATABASE_URL
+from src.db.models import Base
 
 config = context.config
 

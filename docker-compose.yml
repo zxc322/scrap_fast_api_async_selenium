@@ -57,7 +57,7 @@ services:
     restart: unless-stopped
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3.11-management
     container_name: 'rabbitmq'
     hostname: "rabbitmq-host"
     ports:
@@ -66,9 +66,9 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "zxc"
       RABBITMQ_DEFAULT_PASS: "zxc"
-    volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/lib/rabbitmq
+    # volumes:
+    #     - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    #     - ~/.docker-conf/rabbitmq/log/:/var/lib/rabbitmq
     # networks:
     #     - rabbitmq_go_net
 

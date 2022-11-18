@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 import uvicorn
 
-from db.connection import database
+from src.db.connection import database
 
-from api_routers import routers
 app = FastAPI()
 
 
@@ -18,11 +17,9 @@ async def shutdown():
 
 @app.get('/')
 def home():
-    return {'status': '44'}
+    return {'status': 'OK'}
 
 
-
-app.include_router(routers.api_router)
 
 
 
