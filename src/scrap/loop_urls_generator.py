@@ -34,7 +34,7 @@ class UrlsLoop:
 
     def link_generator(self):
          return ('https://www.kijiji.ca/b-real-estate/{}/page-{}/{}?siteLocale=en_CA'.format(
-            self.province[0], page, self.province[1]) for page in range(1, 2))
+            self.province[0], page, self.province[1]) for page in range(3, 4))
 
     def scrape(self, url, *, loop):
         loop.run_in_executor(executor, self.link_scraper.scraper, url)

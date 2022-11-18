@@ -13,10 +13,10 @@ class RabbitLinksPublisher:
     def __init__(self) -> None:
         connection = pika.BlockingConnection(parameters)
         self.chanel = connection.channel()
-        self.chanel.queue_declare('items_urls')
-
+        
 
     def send_message(self, body):
+        self.chanel.queue_declare('items_urls')
         self.chanel.basic_publish(exchange='',
                     routing_key='items_urls',
                     body=body)

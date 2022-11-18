@@ -1,9 +1,7 @@
-import pika
+import asyncio
+import functools
 from selenium import webdriver
 
-credentials = pika.PlainCredentials('zxc', 'zxc')
-parameters = pika.ConnectionParameters('rabbitmq-host', 5672, '/', credentials)
-connection = pika.BlockingConnection(parameters)
 
 options = webdriver.ChromeOptions()    
 options.add_argument("--headless")
@@ -22,3 +20,9 @@ LOCATIONS = {
     10: ('newfoundland', 'c37l9008')
     
 }
+
+def sync(f):
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        return asyncio.get_event_loop().run_until_complete(f(*args, **kwargs))
+    return wrapper

@@ -2,13 +2,16 @@ from fastapi import FastAPI
 import uvicorn
 
 from src.db.connection import database
+from src.endpoints.retrieve import router
 
 app = FastAPI()
 
 
 @app.on_event("startup")
 async def startup():
+    print('[INFO] Connecting database')
     await database.connect()
+    print('[INFO]  connected success!')
 
 @app.on_event("shutdown")
 async def shutdown():
@@ -19,7 +22,7 @@ async def shutdown():
 def home():
     return {'status': 'OK'}
 
-
+app.include_router(router)
 
 
 

@@ -17,10 +17,6 @@ from rabbit.items_data_publisher import RabbitDataPublisher
 
 class ItemScraper():
 
-    # def __init__(self):
-    #     self.rabbit_consumer = RabbitLinksConsumer()
-        
-
 
     def item_scraper(self, url):
         try:
@@ -36,7 +32,6 @@ class ItemScraper():
                 print('--- WE are looking for reveal btn ---   ')
                 time.sleep(3)
                 reveal_button = driver.find_element(By.XPATH, "//button[@class='phoneNumberContainer-69344174 phoneShowNumberButton-1052915314 button-1997310527 button__medium-1066667140']")
-                print(f'---reveal btn {reveal_button} ---')
                 reveal_button.click()
                 print('--- click ---')
                 time.sleep(3)
@@ -54,19 +49,7 @@ class ItemScraper():
 
             data = [user_dict, item_dict, overview_dict, units_dict]
             to_rabbit = json.dumps(data)
-            print(type(to_rabbit    ))
-            print('!---ITEM\n', to_rabbit)
-
-            RabbitDataPublisher.send_message(body=to_rabbit)
-            # new_item_id = self.db.get_or_create_item(item_data=item_dict, user_data=user_dict)
-            # if not new_item_id.created_before:
-            #     self.db.create_overview(item_id=new_item_id, overview_dict=overview_dict)
-            #     self.db.create_units(item_id=new_item_id, units_dict=units_dict)
-            
-            # self.chanel2.basic_publish(exchange='',
-            #         routing_key='items_data',
-            #         body='send_new_item')
-
+            RabbitDataPublisher().send_message(body=to_rabbit)
             
             
         except Exception as ex:

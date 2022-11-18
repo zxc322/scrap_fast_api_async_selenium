@@ -1,8 +1,8 @@
-"""migration_1
+"""migration_2
 
-Revision ID: a2b4a632768e
+Revision ID: 98de8dc0bfc7
 Revises: 
-Create Date: 2022-11-17 20:06:13.895612
+Create Date: 2022-11-18 21:23:10.570157
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a2b4a632768e'
+revision = '98de8dc0bfc7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,8 +35,9 @@ def upgrade() -> None:
     op.create_index(op.f('ix_users_user_id'), 'users', ['user_id'], unique=False)
     op.create_table('items',
     sa.Column('item_id', sa.Integer(), nullable=False),
-    sa.Column('ad_id', sa.SmallInteger(), nullable=True),
+    sa.Column('ad_id', sa.String(), nullable=True),
     sa.Column('creator_id', sa.Integer(), nullable=True),
+    sa.Column('title', sa.String(), nullable=True),
     sa.Column('location', sa.String(), nullable=True),
     sa.Column('address', sa.String(), nullable=True),
     sa.Column('published_date', sa.DateTime(), nullable=True),
@@ -46,7 +47,6 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['creator_id'], ['users.user_id'], ),
     sa.PrimaryKeyConstraint('item_id')
     )
-    op.create_index(op.f('ix_items_ad_id'), 'items', ['ad_id'], unique=False)
     op.create_index(op.f('ix_items_item_id'), 'items', ['item_id'], unique=False)
     op.create_table('overview',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -89,7 +89,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_overview_id'), table_name='overview')
     op.drop_table('overview')
     op.drop_index(op.f('ix_items_item_id'), table_name='items')
-    op.drop_index(op.f('ix_items_ad_id'), table_name='items')
     op.drop_table('items')
     op.drop_index(op.f('ix_users_user_id'), table_name='users')
     op.drop_table('users')

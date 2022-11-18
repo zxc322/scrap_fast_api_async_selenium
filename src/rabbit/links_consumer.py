@@ -12,10 +12,8 @@ from rabbit.pika_connect import parameters
 class RabbitLinksConsumer:
 
     def __init__(self) -> None:
-        print('--- INIT RabbitLinksConsumer --- ')
         connection = pika.BlockingConnection(parameters)
         self.chanel = connection.channel()
-        self.chanel.queue_declare('items_urls')
 
 
     def consume(self, callback):

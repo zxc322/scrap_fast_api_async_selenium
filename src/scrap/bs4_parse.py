@@ -90,7 +90,7 @@ class BS4Parse:
     def ad_id(self):
         try:
             ad_id = self.soup.find('li', class_='currentCrumb-3831268168').get_text(strip=True)
-            return int(ad_id[5:])
+            return ad_id[5:]
         except:
             return None
 
@@ -127,7 +127,6 @@ class BS4Parse:
     def published_date(self):
         try:
             time = self.soup.find('time').get('datetime')
-            # TODO datetime.strptime(time, "%Y-%m-%dT%H:%M:%S.%fZ")
             return time
         except:
             return None
@@ -135,7 +134,8 @@ class BS4Parse:
 
     def price(self):
         try:
-            price = self.soup.find('div', class_='priceWrapper-1165431705').find('span').get('content')[-1]
+            price = self.soup.find('div', class_='priceWrapper-1165431705').find('span').get('content')[:-1]
+            print('bs4 price', price)
             price = int(price)
             return price
         except:

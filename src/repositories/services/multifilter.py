@@ -1,47 +1,65 @@
 class MultiFilter:
 
+    def __init__(self, filters: dict, order_by: tuple, limit: int, offset: int) -> None:
+        self.filters = filters
+        self.order_by = order_by
+        self.limit = limit
+        self.offset = offset
+        
 
-    def retrieve_item(self, conditions):
+    def retrieve_item(self):
         query = "SELECT\
             ad_id,\
+            title,\
             location,\
             address,\
             published_date,\
             price,\
+            description,\
+            creator_id,\
             name as creator_name,\
+            profile_url as creator_profile,\
+            phone,\
             type as creator_type,\
             listings as creators_total_listings,\
-            time_on_kijiji,\
+            on_kijiji_from,\
             avg_reply,\
             reply_rate,\
             hydro, heat, water, wifi, parking,\
-            agreement_years,\
+            agreement_type,\
+            move_in_date,\
             pet_friendly,\
-            size, furnished, laundry, dishwasher, fridge,\
-            air_Conditioning, outdoor_spase, smoking_permitted\
+            size, furnished, laundry_in_unit,\
+            lundry_in_building,\
+            dishwasher, fridge,\
+            air_conditioning, outdoor_spase, smoking_permitted \
             FROM items\
             JOIN users\
-            ON items.creator.id = users.user_id\
+            ON items.creator_id = users.user_id\
             JOIN overview\
-            ON items.item_id = overwiev.item_id\
+            ON items.item_id = overview.item_id\
             JOIN unit\
             ON items.item_id = unit.item_id"
 
-        query += self.__generate_filters(conditions)
-        query += " ORDER BY "
+        query += self.__generate_filters()
+        query += self.__order_by_seq()
+        query += ' LIMIT {} OFFSET {}'.format(self.limit, self.offset)
         return query
 
-    def __generate_filters(self, conditions):
-        filters = " WHERE items.item_id IS NOT NULL"
-        for k, v in conditions.items():
+    def __generate_filters(self):
+        where = " WHERE items.item_id IS NOT NULL"
+        for k, v in self.filters.items():
             if isinstance(v, list):
-                filters += f" AND {k} BETWEEN {str(v[0])} AND {str(v[1])}"
+                where += f" AND {k} BETWEEN '{str(v[0])}' AND '{str(v[1])}'"
             else:
-                filters += f" AND {k} = {str(v)}" 
-        return filters
+                where += f" AND {k} = '{str(v)}'" 
+        return where
+
+    def __order_by_seq(self):
+        if self.order_by:
+            res = ' ORDER BY'
+            for el in self.order_by:
+                res += f' {el},'
+            return res[:-1]
 
 
-
-query = MultiFilter()
-conditions = {"price": [500, 1000]}
-print(query.retrieve_item(conditions))

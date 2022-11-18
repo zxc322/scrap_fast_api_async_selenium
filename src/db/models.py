@@ -32,12 +32,13 @@ class Item(Base):
     __tablename__ = "items"
 
     item_id = Column(Integer, primary_key=True, index=True)
-    ad_id = Column(SmallInteger, index=True)
+    ad_id = Column(String)
     creator_id = Column(Integer, ForeignKey('users.user_id'))
+    title = Column(String)
     location = Column(String)
     address = Column(String)
     published_date = Column(DateTime)
-    price = Column(SmallInteger, nullable=True)
+    price = Column(Integer, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     description = Column(String)
 

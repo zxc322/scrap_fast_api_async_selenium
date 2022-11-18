@@ -18,7 +18,6 @@ class ItemLoop:
 
     def __init__(self) -> None:
         self.item_scaper = ItemScraper()
-        #self.rabbit_consumer = RabbitLinksConsumer()
 
     def scrape(self, url, *, loop):
         loop.run_in_executor(executor, self.item_scaper.item_scraper, url)
@@ -29,7 +28,6 @@ item = ItemLoop()
 
 def callback(ch, method, properties, url):
         url = url.decode("utf-8")
-        print(f'--- consume msg {url} --- ')
         url += '?siteLocale=en_CA' # To prevent Franch pages
         item.scrape(url, loop=loop)
 

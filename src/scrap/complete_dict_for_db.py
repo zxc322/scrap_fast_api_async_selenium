@@ -26,9 +26,11 @@ class CompleteDict:
     def item_insert(self):
         item = dict(
             ad_id = self.parse.ad_id(),
+            title = self.parse.title(),
             location = self.parse.location(),
             address = self.parse.address(),
             published_date = self.parse.published_date(),
+            price = self.parse.price(),
             description = self.parse.description()
         )
 
